@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Playfair+Display:wght@700&display=swap');
+@import "tailwindcss";
+/* In your index.css or a dedicated navbar.css file */
+
+.navbar {
+  background-color: #e0f2f7; /* Corresponds to Tailwind's bg-blue-30 */
+  color: #1e3a8a; /* Corresponds to Tailwind's text-blue-900 */
+  padding: 1.5rem 1.5rem; /* Corresponds to Tailwind's px-6 py-3 */
+  border-bottom-left-radius: 1rem; /* Corresponds to Tailwind's rounded-b-2xl */
+  border-bottom-right-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Corresponds to Tailwind's shadow-md */
+}
+
+.navbar-content {
+  display: flex; /* Makes it a flex container */
+  align-items: center; /* Vertically centers items */
+  justify-content: space-between; /* Pushes items to ends */
+  max-width: 80rem; /* Corresponds to Tailwind's max-w-7xl (1280px) */
+  margin-left: auto; /* Corresponds to Tailwind's mx-auto */
+  margin-right: auto;
+}
+
+.navbar-logo-container {
+  /* No specific margin needed here if justify-content: space-between is used */
+  /* Other styles for the logo container (size, background, etc.) would go here */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem; /* h-16 */
+  width: 4rem; /* w-16 */
+  border-radius: 9999px; /* rounded-full */
+  background: linear-gradient(to bottom right, #fcd34d, #eab308, #b45309); /* bg-gradient-to-br from-yellow-300 via-yellow-500 to-yellow-700 */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  padding: 0.25rem; /* p-1 */
+}
+
+.navbar-logo-container img {
+  height: 3.5rem; /* h-14 */
+  width: 3.5rem; /* w-14 */
+  object-fit: contain; /* object-contain */
+  border-radius: 9999px; /* rounded-full */
+  border: 2px solid white; /* border-2 border-white */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+  background-color: white; /* bg-white */
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none; /* Remove bullet points */
+  padding: 0;
+  margin: 0;
+  gap: 2rem; /* Corresponds to Tailwind's space-x-8 (32px) */
+  font-weight: 800; /* font-extrabold */
+  text-transform: uppercase; /* uppercase */
+  letter-spacing: 0.1em; /* tracking-widest */
+  font-size: 1.125rem; /* text-lg */
+  font-family: 'Montserrat', sans-serif; /* font-[Montserrat] */
+}
+
+.navbar-links li a {
+  padding: 0.5rem 0.75rem; /* px-3 py-2 */
+  border-radius: 0.25rem; /* rounded */
+  transition: all 200ms ease-in-out; /* transition-all duration-200 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); /* drop-shadow */
+  font-family: 'Playfair Display', serif; /* font-[Playfair Display] */
+  letter-spacing: 0.05em; /* tracking-wider */
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit color from parent ul */
+}
+
+.navbar-links li a:hover {
+  background: linear-gradient(to right, #60a5fa, #2563eb); /* hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 */
+  color: white; /* hover:text-white */
+}
+
+.navbar-links li a:focus {
+  background-color: #2563eb; /* focus:bg-blue-600 */
+  color: white; /* focus:text-white */
+  outline: none; /* Remove default focus outline */
+}
