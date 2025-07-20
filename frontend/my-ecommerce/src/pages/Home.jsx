@@ -1,7 +1,60 @@
-import { products } from '../data'; // Assuming your products data is here
+import { useState, useEffect } from 'react';
+import api from '../API/api';
 import HeaderImage from '../assets/mainbg.jpg';
+import { useCart } from '../context/CartContext';
 
 export default function Home() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get('/products');
+        setProducts(response.data);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        setError('Failed to load products. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="bg-gradient-to-br from-slate-100 to-blue-100 min-h-screen font-sans flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-xl text-slate-700">Loading products...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-gradient-to-br from-slate-100 to-blue-100 min-h-screen font-sans flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-red-500 text-6xl mb-4">⚠️</div>
+          <p className="text-xl text-slate-700 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg transition-colors duration-300"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gradient-to-br from-slate-100 to-blue-100 min-h-screen font-sans">
       {/* Creative Cover Section */}
@@ -45,44 +98,50 @@ export default function Home() {
         <h2 className="text-4xl font-bold text-slate-800 mb-12 text-center tracking-tight border-b-4 border-blue-400 pb-4 inline-block mx-auto">
           Shop Our Collection
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map(product => (
-            <div
-              key={product.id}
-              className="group bg-white rounded-2xl shadow-xl hover:shadow-3xl transition-all duration-300 flex flex-col items-center p-6 border border-slate-100 hover:border-blue-500 transform hover:-translate-y-2 relative overflow-hidden cursor-pointer" // Added group, stronger shadow, transform, cursor
-            >
-              {/* Product Image with Hover Effect */}
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-40 h-40 object-cover rounded-xl mb-4 border border-slate-200 group-hover:scale-105 transition-transform duration-300" // Image scales on group hover
-              />
-              {/* Optional: "New Arrival" Badge */}
-              {product.isNew && ( // Assuming products can have an 'isNew' property
-                <span className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full shadow-md rotate-6 transform-gpu opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  New!
-                </span>
-              )}
-
-              {/* Product Info */}
-              <h2 className="text-xl font-bold text-slate-900 mb-2 text-center">{product.name}</h2>
-              <p className="text-slate-600 text-sm mb-3 text-center line-clamp-2">{product.description}</p> {/* line-clamp for consistent height */}
-
-              {/* Price */}
-              <span className="font-extrabold text-blue-700 text-2xl mb-4 mt-auto">
-                {product.price} {product.currency}
-              </span>
-
-              {/* Add to Cart Button with Group Hover Animation */}
-              <button
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-all duration-300 w-full
-                           opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0" // Button fades in and slides up on group hover
+        {products.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-xl text-slate-600">No products available at the moment.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {products.map(product => (
+              <div
+                key={product.id}
+                className="group bg-white rounded-2xl shadow-xl hover:shadow-3xl transition-all duration-300 flex flex-col items-center p-6 border border-slate-100 hover:border-blue-500 transform hover:-translate-y-2 relative overflow-hidden cursor-pointer" // Added group, stronger shadow, transform, cursor
               >
-                Add to Cart
-              </button>
-            </div>
-          ))}
-        </div>
+                {/* Product Image with Hover Effect */}
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-40 h-40 object-cover rounded-xl mb-4 border border-slate-200 group-hover:scale-105 transition-transform duration-300" // Image scales on group hover
+                />
+                {/* Optional: "New Arrival" Badge */}
+                {product.isNew && ( // Assuming products can have an 'isNew' property
+                  <span className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full shadow-md rotate-6 transform-gpu opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    New!
+                  </span>
+                )}
+
+                {/* Product Info */}
+                <h2 className="text-xl font-bold text-slate-900 mb-2 text-center">{product.name}</h2>
+                <p className="text-slate-600 text-sm mb-3 text-center line-clamp-2">{product.description}</p> {/* line-clamp for consistent height */}
+
+                {/* Price */}
+                <span className="font-extrabold text-blue-700 text-2xl mb-4 mt-auto">
+                  {product.price} {product.currency || 'MAD'}
+                </span>
+
+                {/* Add to Cart Button */}
+                <button
+                  className="creative-cart-btn w-full"
+                  onClick={() => addToCart(product)}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* New Creative Section: Why Choose Us */}

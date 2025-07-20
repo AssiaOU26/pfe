@@ -15,7 +15,7 @@ export const products = [
     name: 'Pack Black ',
     price: 399.99,
     currency: 'MAD',
-    image: image1,
+    // image:http:'http://127.0.0.1:8000/media/black1.jpg',
     description: 'A comfortable Sandal and stylish bag.'
   },
   {
