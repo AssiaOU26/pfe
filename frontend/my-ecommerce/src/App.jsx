@@ -12,6 +12,7 @@ import RegisterPage from './pages/register';
 import './App.css';
 import { CartProvider, useCart } from './context/CartContext';
 import Toast from './components/Toast';
+import Footer from './components/Footer';
 
 // import LoginPage from './pages/LoginPage'; // You'll create this
 
@@ -29,6 +30,7 @@ function AppContent() {
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
       {toast && <Toast message={toast.message} type={toast.type} />}
+      <Footer />
     </Router>
   );
 }
