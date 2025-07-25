@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import Logo from '../assets/logo1.png'; // Use your logo or a creative icon
+import { Link } from "react-router-dom";
 
+<p>
+  Already have an account? <Link to="/login">Login</Link>
+</p>
 export default function LoginPage() {
   // State to hold the values of email and password inputs
   const [email, setEmail] = useState('');
@@ -118,4 +122,5 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+

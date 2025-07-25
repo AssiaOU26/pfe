@@ -1,3 +1,9 @@
+body {
+  background: #f8fafc; /* light gray, adjust as needed */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
 /* Creative Add to Cart Button */
 .creative-cart-btn {
   background: linear-gradient(90deg, #a21caf 0%, #ec4899 100%);
@@ -32,4 +38,28 @@
 .creative-cart-btn:active {
   transform: scale(0.98);
   box-shadow: 0 1px 4px 0 rgba(236,72,153,0.15);
+}
+.about-gradient-bg {
+  background: linear-gradient(135deg, #ffe0ec 0%, #fffbe6 50%, #e0e7ff 100%);
+}
+.pastel-hero-bg {
+  background: linear-gradient(90deg, #fbc2eb 0%, #fcdffb 50%, #f9f9e3 100%);
+}
+.pastel-team-bg {
+  background: linear-gradient(90deg, #fffbe6 0%, #ffe0ec 100%);
+}
+.text-gradient-hero {
+  background: linear-gradient(90deg, #f472b6, #fbbf24, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+.story-card {
+  box-shadow: 0 8px 32px 0 rgba(244, 114, 182, 0.10);
+  border-left: 8px solid #fbc2eb;
+}
+.product-card {
+  box-shadow: 0 8px 32px 0 rgba(168, 85, 247, 0.10);
+  border-top-width: 8px;
 }

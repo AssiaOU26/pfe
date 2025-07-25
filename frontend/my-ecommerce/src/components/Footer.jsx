@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="relative bg-gradient-to-br from-purple-700 via-pink-500 to-yellow-400 text-white pt-16 pb-8 px-4 mt-24 shadow-2xl overflow-hidden">
+    <footer className="relative bg-gradient-to-br from-purple-700 via-pink-500 to-yellow-400 text-white pt-16 pb-8 px-4 shadow-2xl overflow-hidden">
       {/* Wavy SVG Top Border */}
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180" style={{height: '60px'}}>
         <svg viewBox="0 0 500 60" preserveAspectRatio="none" className="w-full h-full">
@@ -32,6 +32,12 @@ export default function Footer() {
           </a>
           <a href="mailto:info@finetude.com" className="hover:scale-125 transition-transform duration-300 animate-bounce text-3xl delay-200" aria-label="Email">
             <i className="fas fa-envelope"></i>
+          </a>
+          <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" className="hover:scale-125 transition-transform duration-300 animate-bounce text-3xl delay-300" aria-label="TikTok">
+            <i className="fab fa-tiktok"></i>
+          </a>
+          <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="hover:scale-125 transition-transform duration-300 animate-bounce text-3xl delay-400" aria-label="WhatsApp">
+            <i className="fab fa-whatsapp"></i>
           </a>
         </div>
       </div>

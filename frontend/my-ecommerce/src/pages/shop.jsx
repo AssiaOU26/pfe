@@ -16,10 +16,16 @@ export default function Shop() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {cart.map((product) => (
-            <div key={product.id} className="relative bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl p-6 flex flex-col items-center border-2 border-pink-100 hover:border-purple-400 transition-all duration-300">
+            <div key={product.id} className="bg-white rounded-2xl shadow-xl flex flex-col items-center p-6 border border-purple-100">
               {product.image && (
                 <img
-                  src={product.image}
+                  src={
+                    product.image
+                      ? product.image.startsWith('http')
+                        ? product.image
+                        : `http://localhost:8000${product.image.startsWith('/') ? '' : '/media/'}${product.image}`
+                      : 'https://via.placeholder.com/150'
+                  }
                   alt={product.name}
                   className="w-36 h-36 object-cover rounded-xl mb-4 border border-purple-100 shadow-lg"
                 />

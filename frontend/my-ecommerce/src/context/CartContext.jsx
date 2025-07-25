@@ -7,7 +7,7 @@ export function useCart() {
 }
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState(() => {
+  const [cartIds, setCartIds] = useState(() => {
     try {
       const stored = localStorage.getItem('cart');
       return stored ? JSON.parse(stored) : [];
@@ -15,22 +15,42 @@ export function CartProvider({ children }) {
       return [];
     }
   });
+  const [products, setProducts] = useState([]);
   const [toast, setToast] = useState(null);
 
+  // Fetch product details for all cart IDs
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    async function fetchProducts() {
+      if (cartIds.length === 0) {
+        setProducts([]);
+        return;
+      }
+      try {
+        const response = await fetch(`http://localhost:8000/api/products/`);
+        const allProducts = await response.json();
+        // Filter only products in cart
+        setProducts(allProducts.filter(p => cartIds.includes(p.id)));
+      } catch (err) {
+        setProducts([]);
+      }
+    }
+    fetchProducts();
+  }, [cartIds]);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartIds));
+  }, [cartIds]);
 
   const addToCart = useCallback((product) => {
-    setCart((prev) => {
-      if (prev.find((item) => item.id === product.id)) return prev;
+    setCartIds((prev) => {
+      if (prev.includes(product.id)) return prev;
       setToast({ message: `${product.name} added to cart!`, type: 'success' });
-      return [...prev, product];
+      return [...prev, product.id];
     });
   }, []);
 
   const removeFromCart = useCallback((id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    setCartIds((prev) => prev.filter((itemId) => itemId !== id));
   }, []);
 
   // Hide toast after 2 seconds
@@ -42,7 +62,7 @@ export function CartProvider({ children }) {
   }, [toast]);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, toast, setToast }}>
+    <CartContext.Provider value={{ cart: products, addToCart, removeFromCart, toast, setToast }}>
       {children}
     </CartContext.Provider>
   );

@@ -1,10 +1,13 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import Logo from '../assets/logo1.png';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
   const { cart } = useCart();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [badgeBounce, setBadgeBounce] = useState(false);
   const prevCartCount = useRef(cart.length);
 
@@ -28,11 +31,21 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   const navLinks = [
     { name: 'Home', path: '/', icon: '🏠' },
     { name: 'Shop', path: '/shop', icon: '🛍️' }, // We'll add a badge for this
     { name: 'About', path: '/about', icon: '✨' },
     { name: 'Contact', path: '/contact', icon: '💌' },
+  ];
+
+  const authLinks = user ? [
+    { name: 'Logout', icon: '👤', action: handleLogout },
+  ] : [
     { name: 'Login', path: '/login', icon: '👤' },
     { name: 'Register', path: '/register', icon: '🆕' },
   ];
@@ -83,7 +96,7 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-1">
-              {navLinks.map((link,index) => (
+              {[...navLinks, ...authLinks].map((link,index) => (
                 <div key={link.name} className="relative group">
                   {/* Cart badge for Shop link */}
                   {link.name === 'Shop' && cart.length > 0 && (
@@ -94,6 +107,7 @@ export default function Navbar() {
                       {cart.length}
                     </span>
                   )}
+                  {link.path ? (
                   <Link
                     to={link.path}
                     className={`
@@ -116,6 +130,27 @@ export default function Navbar() {
                     {/* Hover effect */}
                     <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </Link>
+                  ) : (
+                    <button
+                      onClick={link.action}
+                      className={`
+                        relative px-6 py-3 rounded-full font-medium transition-all duration-300
+                        hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20
+                        hover:shadow-lg hover:scale-105
+                        text-gray-700 hover:text-gray-900'
+                      `}
+                      style={{
+                        animationDelay: `${index * 100}ms`
+                      }}
+                    >
+                      {/* Icon */}
+                      <span className="mr-2 text-lg">{link.icon}</span>
+                      {link.name}
+                      
+                      {/* Hover effect */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </button>
+                  )}
                   
                   {/* Active indicator */}
                   {location.pathname === link.path && (
@@ -144,7 +179,8 @@ export default function Navbar() {
           isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}>
           <div className="bg-white/95 backdrop-blur-lg border-t border-pink-200/50 px-4 py-6 space-y-4">
-            {navLinks.map((link, index) => (
+            {[...navLinks, ...authLinks].map((link, index) => (
+              link.path ? (
               <Link
                 key={link.name}
                 to={link.path}
@@ -164,6 +200,23 @@ export default function Navbar() {
                 <span className="text-xl">{link.icon}</span>
                 <span>{link.name}</span>
               </Link>
+              ) : (
+                <button
+                  key={link.name}
+                  onClick={() => { link.action(); setIsMobileMenuOpen(false); }}
+                  className={`
+                    flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all duration-300
+                    hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20
+                    text-gray-700 hover:text-gray-900'
+                  `}
+                  style={{
+                    animationDelay: `${index * 100}ms`
+                  }}
+                >
+                  <span className="text-xl">{link.icon}</span>
+                  <span>{link.name}</span>
+                </button>
+              )
             ))}
           </div>
         </div>

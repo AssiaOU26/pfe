@@ -111,9 +111,15 @@ export default function Home() {
               >
                 {/* Product Image with Hover Effect */}
                 <img
-                  src={product.image}
+                  src={
+                    product.image
+                      ? product.image.startsWith('http')
+                        ? product.image
+                        : `http://localhost:8000${product.image.startsWith('/') ? '' : '/media/'}${product.image}`
+                      : 'https://via.placeholder.com/150'
+                  }
                   alt={product.name}
-                  className="w-40 h-40 object-cover rounded-xl mb-4 border border-slate-200 group-hover:scale-105 transition-transform duration-300" // Image scales on group hover
+                  className="w-40 h-40 object-cover rounded-xl mb-4 border border-slate-200 group-hover:scale-105 transition-transform duration-300"
                 />
                 {/* Optional: "New Arrival" Badge */}
                 {product.isNew && ( // Assuming products can have an 'isNew' property

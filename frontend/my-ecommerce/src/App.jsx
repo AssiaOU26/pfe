@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'; // Adjust path if your Navbar is in a 
 import HomePage from './pages/Home'; // The Home page you previously discussed
 import ShopPage from './pages/Shop'; // Fix: match file name
 import AboutPage from './pages/AboutPage'; // We'll create this next!
+import { AuthProvider } from './context/AuthContext'; 
 import ContactPage from './pages/ContactPage'; // The Contact page we just designed
 // App.js (Example)
 import React from 'react';
@@ -37,8 +38,10 @@ function AppContent() {
 
 export default function App() {
   return (
+    <AuthProvider> 
     <CartProvider>
       <AppContent />
     </CartProvider>
+    </AuthProvider>
   );
 }
